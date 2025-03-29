@@ -1,0 +1,121 @@
+### Authentication Tests
+
+### Sign Up
+POST http://localhost:8080/api/signup
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Login
+POST http://localhost:8080/api/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Movie Management Tests
+
+### Create Movie (Admin)
+POST http://localhost:8080/api/admin/movies
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "title": "Test Movie",
+  "description": "A test movie description",
+  "duration": 120,
+  "genre": "Action",
+  "release_date": "2024-01-01"
+}
+
+### Update Movie (Admin)
+PUT http://localhost:8080/api/admin/movies/{{movieId}}
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "title": "Updated Test Movie",
+  "description": "Updated test movie description",
+  "duration": 130,
+  "genre": "Action/Drama",
+  "release_date": "2024-01-02"
+}
+
+### Delete Movie (Admin)
+DELETE http://localhost:8080/api/admin/movies/{{movieId}}
+Authorization: Bearer {{auth_token}}
+
+### Showtime Management Tests
+
+### Create Showtime (Admin)
+POST http://localhost:8080/api/admin/showtimes
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+    "movie_id": "{{movieId}}",
+    "start_time": "2024-01-01T20:00:00Z",
+    "end_time": "2024-01-01T22:00:00Z",
+    "hall_number": 1,
+    "price": 15.00
+}
+
+### Get Movie Showtimes
+GET http://localhost:8080/api/movies/{{movieId}}/showtimes
+Authorization: Bearer {{auth_token}}
+
+### Update Showtime (Admin)
+PUT http://localhost:8080/api/admin/showtimes/{{showtimeId}}
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "start_time": "2024-01-01T21:00:00Z",
+  "end_time": "2024-01-01T23:00:00Z",
+  "hall_number": 2,
+  "price": 17.50
+}
+
+### Delete Showtime (Admin)
+DELETE http://localhost:8080/api/admin/showtimes/{{showtimeId}}
+Authorization: Bearer {{auth_token}}
+
+### Reservation Tests
+
+### Get Available Seats
+GET http://localhost:8080/api/showtimes/{{showtimeId}}/seats
+Authorization: Bearer {{auth_token}}
+
+### Create Reservation
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+    "showtime_id": "{{showtimeId}}",
+    "seat_numbers": ["A1", "A2"]
+}
+
+### Get User Reservations
+GET http://localhost:8080/api/user/reservations
+Authorization: Bearer {{auth_token}}
+
+### Get All Reservations (Admin)
+GET http://localhost:8080/api/admin/reservations
+Authorization: Bearer {{auth_token}}
+
+### Cancel Reservation
+DELETE http://localhost:8080/api/reservations/{{reservationId}}
+Authorization: Bearer {{auth_token}}
+
+### Admin Management Tests
+
+### Promote User to Admin
+POST http://localhost:8080/api/admin/users/{{userId}}/promote
+Authorization: Bearer {{auth_token}}
