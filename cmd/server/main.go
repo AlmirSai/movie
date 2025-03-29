@@ -6,19 +6,23 @@ import (
 	"movie/internal/routes"
 )
 
+// Gitlab is shit
+
 func main() {
 	cfg, err := config.LoadConfig()
 	if err != nil {
-		log.Printf("Error loading config: %v", err)
+		log.Fatalf("Error loading config: %v", err)
 	}
 
 	db, err := config.NewDB(cfg)
 	if err != nil {
-		log.Printf("Error connecting to database: %v", err)
+		log.Fatalf("Error connecting to database: %v", err)
 	}
 
+	address := ":8080"
 	router := routes.SetupRouter(db)
-	if err := router.Run("8080"); err != nil {
-		log.Printf("Error starting server: %v", err)
+	log.Printf("Server starting on %s", address)
+	if err := router.Run(address); err != nil {
+		log.Fatalf("Error starting server: %v", err)
 	}
 }
