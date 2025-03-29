@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: movie
+    ports:
+      - "8080:8080"
+    env_file:
+      - ../config/.env
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    container_name: database
+    restart: always
+    ports:
+      - "${DB_PORT}:5432"
+    env_file:
+      - ../config/.env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
